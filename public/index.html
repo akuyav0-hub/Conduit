@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2c3035">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Send files straight to your friends' devices. Nothing is uploaded to a server.">
+  <title>Conduit</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="preload" href="/fonts/overpass-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/app.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <div id="gate-root"></div>
+
+  <div id="app" class="app" hidden>
+    <header class="topbar">
+      <button class="plate" id="me-plate" aria-label="Your profile"><span class="plate-text" id="me-name"></span></button>
+      <span class="spacer"></span>
+      <nav class="nav" aria-label="Sections">
+        <button class="nav-item" data-view="home" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5M15.5 4.4a3.5 3.5 0 0 1 0 6.3M18 14.8c2 .7 3.2 2.5 3.5 5.2"/></svg>
+          <span>Friends</span>
+        </button>
+        <button class="nav-item" data-view="inbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M3 13l3-8h12l3 8M3 13v6h18v-6M3 13h5l1.5 2.5h5L16 13h5"/></svg>
+          <span>Inbox</span>
+          <span class="badge" id="inbox-badge" hidden></span>
+        </button>
+        <button class="nav-item" data-view="you">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c.8-4 4-6.5 8-6.5s7.2 2.5 8 6.5"/></svg>
+          <span>You</span>
+        </button>
+      </nav>
+      <span class="hub" id="hub-status" role="status"><span class="dot"></span><span id="hub-text">Connecting…</span></span>
+      <button class="icon-btn" id="log-toggle" aria-label="Event log" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M3.5 5h17v14h-17zM7 9.5l2.5 2.5L7 14.5M12 15h5"/></svg>
+      </button>
+    </header>
+
+    <main>
+      <section class="view" id="view-home" aria-label="Friends and transfers">
+        <div class="decisions" id="decisions" hidden></div>
+        <div class="home-grid">
+          <div class="col">
+            <div class="section-head">
+              <h2>Friends</h2>
+              <button class="btn quiet small" id="add-friend">Add a friend</button>
+            </div>
+            <ul class="friend-list" id="friend-list"></ul>
+          </div>
+          <div class="col">
+            <div class="section-head">
+              <h2>Transfers</h2>
+              <button class="btn quiet small" id="clear-finished" hidden>Clear finished</button>
+            </div>
+            <ul class="activity" id="activity"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-inbox" aria-label="Inbox" hidden></section>
+      <section class="view" id="view-you" aria-label="You" hidden></section>
+    </main>
+  </div>
+
+  <div id="sheet-root"></div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <section class="log" id="log" aria-label="Event log" hidden>
+    <div class="log-head">
+      <span>Event log</span>
+      <button class="icon-btn" id="log-close" aria-label="Close event log">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <pre class="log-lines" id="log-lines"></pre>
+  </section>
+
+  <div class="drop" id="drop" hidden>
+    <p class="drop-title">Drop on a friend to send</p>
+    <div class="drop-targets" id="drop-targets"></div>
+  </div>
+
+  <input type="file" id="file-input" multiple hidden>
+  <input type="file" id="folder-input" webkitdirectory multiple hidden>
+</body>
+</html>
