@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // Rename this to change your URL: https://<name>.<your-subdomain>.workers.dev
+  "name": "conduit",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "HUB", "class_name": "Hub" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Hub"] }],
+  "observability": { "enabled": true }
+  // Optional TURN relay (for friends behind strict firewalls) — add as secrets, not here:
+  //   npx wrangler secret put TURN_KEY_ID
+  //   npx wrangler secret put TURN_KEY_API_TOKEN
+}
